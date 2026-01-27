@@ -21,44 +21,44 @@
 import Foundation
 
 // MARK: - Abstract Products (Interfaces)
-protocol NetworkService {
+fileprivate protocol NetworkService {
     func fetch() -> String
 }
 
-protocol AnalyticsService {
+fileprivate protocol AnalyticsService {
     func log()
 }
 
 // MARK: - Abstract Factory Interface
-protocol EnvironmentFactory {
+fileprivate protocol EnvironmentFactory {
     var networkService: NetworkService { get }
     var analyticsService: AnalyticsService { get }
 }
 
 // MARK: - Concrete Family 1: Production (Real World)
-struct RealNetwork: NetworkService {
+fileprivate struct RealNetwork: NetworkService {
     func fetch() -> String { return "Real Data from API" }
 }
 
-struct RealAnalytics: AnalyticsService {
+fileprivate struct RealAnalytics: AnalyticsService {
     func log() { print("Logging to Firebase...") }
 }
 
-struct ProductionEnvironment: EnvironmentFactory {
+fileprivate struct ProductionEnvironment: EnvironmentFactory {
     let networkService: NetworkService = RealNetwork()
     let analyticsService: AnalyticsService = RealAnalytics()
 }
 
 // MARK: - Concrete Family 2: Testing (Mock World)
-struct MockNetwork: NetworkService {
+fileprivate struct MockNetwork: NetworkService {
     func fetch() -> String { return "{\"mock\": true}" }
 }
 
-struct MockAnalytics: AnalyticsService {
+fileprivate struct MockAnalytics: AnalyticsService {
     func log() { print("Logging to Console (Debug)...") }
 }
 
-struct TestEnvironment: EnvironmentFactory {
+fileprivate struct TestEnvironment: EnvironmentFactory {
     let networkService: NetworkService = MockNetwork()
     let analyticsService: AnalyticsService = MockAnalytics()
 }
